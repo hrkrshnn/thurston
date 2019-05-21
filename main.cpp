@@ -12,20 +12,15 @@
 #include <boost/multiprecision/mpc.hpp>
 #include <boost/multiprecision/mpfr.hpp>
 
-template <typename Z>
-using matrix = boost::numeric::ublas::matrix<Z>;
+#include "matrix.hpp"
+
+// template <typename Z>
+// using matrix = boost::numeric::ublas::matrix<Z>;
 namespace mp = boost::multiprecision;
 
 // 6th root of unity
 const mp::mpc_complex omega{0.5, std::sqrt(3)/2};
 const std::size_t iterMax = 1000;
-
-template <typename Z>
-Z det(const matrix<Z>& mat)  // computes the determinant of a 2x2 matrix
-{
-  // TODO: asserts for dimension
-  return (mat(0, 0) * mat(1,1) - mat(0, 1)*mat(1, 0));
-}
 
 template <typename Z>
 auto matToComplex(const matrix<Z>& mat)
@@ -37,14 +32,17 @@ auto matToComplex(const matrix<Z>& mat)
 template <typename Z>
 auto fundTransform(matrix<Z>& mat)
 {
+
+  const auto oldDet = det(mat);           // used as an invarient
   // Do an inversion operation on the matrix; Inversion in the hyperbolic sense
+  // Performs a -1/z
   auto inversion = [&mat]()
                 {
-                  matrix<Z> tmp = mat;
-                  mat(0, 0) = -tmp(1, 0);
-                  mat(0, 1) = -tmp(1, 1);
-                  mat(1, 0) = tmp(0, 0);
-                  mat(1, 1) = tmp(1, 0);
+                  matrix<Z> tmp{mat};
+                  mat(0, 0) = -tmp(1, 0); // a = -c
+                  mat(0, 1) = -tmp(1, 1); // b = -d
+                  mat(1, 0) = tmp(0, 0);  // c = a
+                  mat(1, 1) = tmp(0, 1);  // d = b
                 };
 
   // Do a z \-> z + k
@@ -69,17 +67,23 @@ auto fundTransform(matrix<Z>& mat)
       if(mp::abs(z) < 1)
         {
           inversion();
+
+          assert(det(mat) == oldDet);
         }
       else if(z.real() < -0.5)
         {
           Z k = mp::floor(z.real() + 0.5); // TODO: check the calculation
           translate(-k);
+
+          assert(det(mat) == oldDet);
           // do a translation
         }
       else if(z.real() > 0.5)
         {
           Z k = mp::floor(z.real() - 0.5);
           translate(-k);
+
+          assert(det(mat) == oldDet);
         }
       else                      // the number is in the fundamental region
         {
@@ -115,7 +119,7 @@ void genPoints(Z M, Z range)
 
           std::cout<<a1<<" "<<b1<<" "<<c<<" "<<d<<std::endl;
 
-          matrix<Z> mat(2, 2);
+          matrix<Z> mat;
           mat(0, 0) = a;
           mat(0, 1) = -b;
           mat(1, 0) = c;
