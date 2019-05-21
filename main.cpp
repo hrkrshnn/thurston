@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <assert.h>
 
 // For the extended euclidean algorithm
 #include <boost/integer/extended_euclidean.hpp>
@@ -18,6 +19,13 @@ namespace mp = boost::multiprecision;
 // 6th root of unity
 const mp::mpc_complex omega{0.5, std::sqrt(3)/2};
 const std::size_t iterMax = 1000;
+
+template <typename Z>
+Z det(const matrix<Z>& mat)  // computes the determinant of a 2x2 matrix
+{
+  // TODO: asserts for dimension
+  return (mat(0, 0) * mat(1,1) - mat(0, 1)*mat(1, 0));
+}
 
 template <typename Z>
 auto matToComplex(const matrix<Z>& mat)
@@ -96,13 +104,16 @@ void genPoints(Z M, Z range)
         {
           auto res = boost::integer::extended_euclidean(a1, b1);
 
-  auto c = res.x;
-  auto d = res.y;
+
+          auto d = res.x;
+          auto c = res.y;
 
           auto gcd = res.gcd;
 
           auto a = a1*M/gcd;      // TODO Cautious about integer overflow?
           auto b = b1*M/gcd;
+
+          std::cout<<a1<<" "<<b1<<" "<<c<<" "<<d<<std::endl;
 
           matrix<Z> mat(2, 2);
           mat(0, 0) = a;
@@ -110,6 +121,7 @@ void genPoints(Z M, Z range)
           mat(1, 0) = c;
           mat(1, 1) = d;
 
+          assert(det(mat) == M);
           results.push_back(mat);
         }
     }
@@ -134,6 +146,7 @@ void genPoints(Z M, Z range)
   for(auto& v: results)
     {
       std::cout<<v<<"\n";
+      matToComplex(v);
     }
 
 }
