@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <set>
 #include <assert.h>
 
 // For the extended euclidean algorithm
@@ -90,7 +91,9 @@ auto fundTransform(matrix<Z>& mat)
 template <typename Z>
 void genPoints(Z M, Z range)
 {
-  std::vector<matrix<Z>> results;
+  // a set because it handles the duplicates
+  std::vector<matrix<Z>> vec;
+  std::set<matrix<Z>> results;
 
   for(Z a1 = 1; a1 < M + range; ++a1)
     {
@@ -116,7 +119,7 @@ void genPoints(Z M, Z range)
           mat(1, 1) = d;
 
           assert(det(mat) == M);
-          results.push_back(mat);
+          vec.push_back(mat);
         }
     }
 
@@ -126,14 +129,19 @@ void genPoints(Z M, Z range)
   // I can transform the matrix if I need to do it.
 
   // Printing whatever we got
-  for(auto& v: results)
+  for(auto& v: vec)
     {
       std::cout<<v<<"\n";
     }
 
-  for(auto& v: results)
+  for(auto& v: vec)
     {
       fundTransform(v);
+    }
+
+  for(const auto& v: vec)
+    {
+      results.insert(v);
     }
 
   std::cout<<"Transformed";

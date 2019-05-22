@@ -3,6 +3,10 @@
 #include <boost/multiprecision/mpc.hpp>
 #include <boost/multiprecision/mpfr.hpp>
 
+namespace mp = boost::multiprecision;
+
+// tolerance for comparisons
+const double tol = 1e-10;
 
 // A 2 by 2 matrix
 template <typename Z>
@@ -63,11 +67,27 @@ struct matrix
       }
   }
 
-  auto toComplex()
+  auto toComplex() const
   {
-    const boost::multiprecision::mpc_complex omega{0.5, std::sqrt(3)/2};
-    boost::multiprecision::mpc_complex z = (c + omega*d)/(a + omega*b);
+    const mp::mpc_complex omega{0.5, std::sqrt(3)/2};
+    mp::mpc_complex z = (c + omega*d)/(a + omega*b);
     return z;
+  }
+
+  auto operator< (const matrix<Z> mat) const
+  {
+    auto x = mp::abs(this->toComplex());
+    auto y = mp::abs(mat.toComplex());
+
+    if(mp::abs(x - y) < tol)
+      {
+        return false;
+      }
+    else
+      {
+        return x < y;
+      }
+
   }
 
 
@@ -77,6 +97,7 @@ struct matrix
     out<<"["<<mat.a<<", "<<mat.b<<"], ["<<mat.c<<", "<<mat.d<<"]"<<std::endl;
     return out;
   }
+
 };
 
 template <typename T>
