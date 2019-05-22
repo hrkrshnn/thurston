@@ -8,9 +8,6 @@
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/io.hpp>
 
-// For complex numbers
-#include <boost/multiprecision/mpc.hpp>
-#include <boost/multiprecision/mpfr.hpp>
 
 #include "matrix.hpp"
 
@@ -21,13 +18,6 @@ namespace mp = boost::multiprecision;
 // 6th root of unity
 const mp::mpc_complex omega{0.5, std::sqrt(3)/2};
 const std::size_t iterMax = 1000;
-
-template <typename Z>
-auto matToComplex(const matrix<Z>& mat)
-{
-  mp::mpc_complex num = (mat(1, 0) + omega*mat(1, 1))/(mat(0, 0) + omega*mat(0, 1));
-  std::cout<<"matrix: "<<mat<<" complex: "<<num<<std::endl;
-}
 
 template <typename Z>
 auto fundTransform(matrix<Z>& mat)
@@ -150,7 +140,7 @@ void genPoints(Z M, Z range)
   for(auto& v: results)
     {
       std::cout<<v<<"\n";
-      matToComplex(v);
+      std::cout<<v.toComplex()<<std::endl;
     }
 
 }
@@ -166,12 +156,12 @@ auto main() -> int
   // test(1, 1) = 1;
 
   // std::cout<<test<<"\n";
-  // matToComplex(test);
+  // test.toComplex();
 
   // fundTransform(test);
   // std::cout<<"After transform\n";
   // std::cout<<test;
-  // matToComplex(test);
+  // test.toComplex();
   genPoints(4, 0);
   return 0;
 }

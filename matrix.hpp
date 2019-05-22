@@ -1,4 +1,8 @@
 #include "iostream"
+// For complex numbers
+#include <boost/multiprecision/mpc.hpp>
+#include <boost/multiprecision/mpfr.hpp>
+
 
 // A 2 by 2 matrix
 template <typename Z>
@@ -57,6 +61,13 @@ struct matrix
             return a;
           }
       }
+  }
+
+  auto toComplex()
+  {
+    const boost::multiprecision::mpc_complex omega{0.5, std::sqrt(3)/2};
+    boost::multiprecision::mpc_complex z = (c + omega*d)/(a + omega*b);
+    return z;
   }
 
 
