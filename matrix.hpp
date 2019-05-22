@@ -94,7 +94,7 @@ struct matrix
   template <typename S>
   friend std::ostream& operator<< (std::ostream& out, const matrix<S>& mat)
   {
-    out<<"["<<mat.a<<", "<<mat.b<<"], ["<<mat.c<<", "<<mat.d<<"]"<<std::endl;
+    out<<"["<<mat.a<<", "<<mat.b<<"], ["<<mat.c<<", "<<mat.d<<"] z:"<<mat.toComplex()<<std::endl;
     return out;
   }
 

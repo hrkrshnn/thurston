@@ -89,7 +89,7 @@ auto fundTransform(matrix<Z>& mat)
 }
 
 template <typename Z>
-void genPoints(Z M, Z range)
+auto genPoints(Z M, Z range)
 {
   // a set because it handles the duplicates
   std::vector<matrix<Z>> vec;
@@ -110,8 +110,6 @@ void genPoints(Z M, Z range)
           auto a = a1*M/gcd;      // TODO Cautious about integer overflow?
           auto b = b1*M/gcd;
 
-          std::cout<<a1<<" "<<b1<<" "<<c<<" "<<d<<std::endl;
-
           matrix<Z> mat;
           mat(0, 0) = a;
           mat(0, 1) = -b;
@@ -121,17 +119,6 @@ void genPoints(Z M, Z range)
           assert(det(mat) == M);
           vec.push_back(mat);
         }
-    }
-
-  // Now, a and b should become a*M/GCD(a, b) and b*M/GCD(a, b)
-
-  // Create the matrix. I just need to have it.
-  // I can transform the matrix if I need to do it.
-
-  // Printing whatever we got
-  for(auto& v: vec)
-    {
-      std::cout<<v<<"\n";
     }
 
   for(auto& v: vec)
@@ -144,33 +131,19 @@ void genPoints(Z M, Z range)
       results.insert(v);
     }
 
-  std::cout<<"Transformed";
-  for(auto& v: results)
-    {
-      std::cout<<v<<"\n";
-      std::cout<<v.toComplex()<<std::endl;
-    }
-
+  return results;
 }
 
 
 
 auto main() -> int
 {
-  // matrix<int> test(2, 2);
-  // test(0, 0) = 2;
-  // test(0, 1) = 0;
-  // test(1, 0) = 0;
-  // test(1, 1) = 1;
+  auto ans = genPoints(4, 0);
 
-  // std::cout<<test<<"\n";
-  // test.toComplex();
-
-  // fundTransform(test);
-  // std::cout<<"After transform\n";
-  // std::cout<<test;
-  // test.toComplex();
-  genPoints(4, 0);
+  for(auto& v: ans)
+    {
+      std::cout<<v;
+    }
   return 0;
 }
 
