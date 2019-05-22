@@ -5,13 +5,15 @@
 
 namespace mp = boost::multiprecision;
 
-// tolerance for comparisons
-const double tol = 1e-10;
-
-// A 2 by 2 matrix
-template <typename Z>
-struct matrix
+namespace th
 {
+  // tolerance for comparisons
+  const double tol = 1e-10;
+
+  // A 2 by 2 matrix
+  template <typename Z>
+  struct matrix
+  {
   Z a, b, c, d;
 
   // operator ()
@@ -98,11 +100,12 @@ struct matrix
     return out;
   }
 
-};
+  };
 
-template <typename T>
-T det(const matrix<T> mat)
-{
+  template <typename T>
+  T det(const matrix<T> mat)
+  {
   return mat.a*mat.d - mat.b*mat.c;
-}
+  }
 
+}
