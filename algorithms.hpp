@@ -1,4 +1,7 @@
 #include "matrix.hpp"
+
+#include <string>
+#include <fstream>
 // For the extended euclidean algorithm
 #include <boost/integer/extended_euclidean.hpp>
 // For matrices
@@ -166,10 +169,13 @@ namespace th
                 if(gcd(gcd(a, b), gcd(b, d)) == 1)
                   {
                     matrix<Z> tmp(a, b, 0, d);
+                    matrix<Z> tmp1(-a, b, 0, -d);
 
                     fundTransform(tmp); // Do a transformation to the
                                         // fundamental domain before pushing it
+                    fundTransform(tmp1);
                     solSpace.push_back(tmp);
+                    solSpace.push_back(tmp1);
                   }
               }
           }
@@ -193,6 +199,20 @@ namespace th
       }
 
     return outs;
+  }
+
+  // Write a data structure that is iterable to a file
+  template <typename Z>
+  auto writeFile(const std::set<matrix<Z>>& outs, const std::string& fname)
+  {
+    std::ofstream myfile(fname);
+
+    myfile<<"x, y\n";
+    for(const auto& v:outs)
+      {
+        auto x = v.toComplex();
+        myfile<<x.real()<<","<<x.imag()<<"\n";              // The "\n" will come from the matrix
+      }
   }
 
 

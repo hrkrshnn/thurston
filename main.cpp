@@ -2,6 +2,7 @@
 #include <vector>
 #include <set>
 #include <assert.h>
+#include <string>
 
 
 #include <boost/program_options.hpp>
@@ -20,13 +21,15 @@ auto main(int argc, char* argv[]) -> int
 {
 
   int m, n;
+  bool writeFile = false;
 
   // Parsing the arguments
   po::options_description desc("Allowed options");
   desc.add_options()
     ("help", "produce help message")
     ("triangulations,t", po::value<int>(&m)->default_value(6), "The number of triangulations")
-    ("range,r", po::value<int>(&n)->default_value(10), "The range of numbers");
+    ("range,r", po::value<int>(&n)->default_value(10), "The range of numbers")
+    ("writefile,w", "Writes to file n.txt, where n is the number of triangulations");
 
   try
     {
@@ -39,6 +42,10 @@ auto main(int argc, char* argv[]) -> int
       std::cout<<desc;
       return 0;
     }
+      if(vm.count("writefile"))
+        {
+          writeFile = true;
+        }
     }
   catch(std::exception& e)
     {
@@ -71,6 +78,13 @@ auto main(int argc, char* argv[]) -> int
   for(const auto& v: outs)
     {
       std::cout<<v;
+    }
+
+  if(writeFile)
+    {
+      // I just need to write the complex numbers
+      std::string fName(std::to_string(m) + ".txt");
+      th::writeFile(outs, fName);
     }
   return 0;
 }
