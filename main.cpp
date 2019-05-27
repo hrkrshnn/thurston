@@ -55,9 +55,20 @@ auto main(int argc, char* argv[]) -> int
 
   std::cout<<"Number of triangulations: "<<m<<" Range: "<<n<<"\n\n";
 
-  auto ans = th::genPoints(m, n);
+  // This was the old algorithm.
+  // auto ans = th::genPoints(m, n);
 
+  auto ans = th::genSpace(m);
+
+  std::cout<<"After transformation\n";
   for(auto& v: ans)
+    {
+      std::cout<<v;
+    }
+
+  std::cout<<"\nAfter removing duplicates\n";
+  auto outs = th::removeDuplicates(ans);
+  for(const auto& v: outs)
     {
       std::cout<<v;
     }

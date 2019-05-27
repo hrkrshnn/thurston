@@ -3,6 +3,8 @@
 #include <boost/multiprecision/mpc.hpp>
 #include <boost/multiprecision/mpfr.hpp>
 
+#include <set>
+
 namespace mp = boost::multiprecision;
 
 namespace th
@@ -16,6 +18,11 @@ namespace th
   {
   Z a, b, c, d;
 
+
+    // A constructor
+    matrix(Z a0, Z b0, Z c0, Z d0): a(a0), b(b0), c(c0), d(d0)
+    {
+    }
   // operator ()
   Z& operator()(const std::size_t i, const std::size_t j)
   {
