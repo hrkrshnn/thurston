@@ -60,21 +60,27 @@ auto main(int argc, char* argv[]) -> int
       return 1;
     }
 
-  std::cout<<"Number of triangulations: "<<m<<" Range: "<<n<<"\n\n";
+  std::cout<<"Number of triangulations: "<<m<<"\n";
 
   // This was the old algorithm.
   // auto ans = th::genPoints(m, n);
 
+  if(m % 2 != 0)
+    {
+      std::cout<<"The number of triangulations must be even"<<std::endl;
+      return 0;
+    }
+
   auto ans = th::genSpace(m);
 
-  std::cout<<"After transformation\n";
+  std::cout<<"After transformation, there are "<<ans.size()<<" elements \n";
   for(auto& v: ans)
     {
       std::cout<<v;
     }
 
-  std::cout<<"\nAfter removing duplicates\n";
   auto outs = th::removeDuplicates(ans);
+  std::cout<<"\nAfter removing duplicates, there are "<<outs.size()<<" elements \n";
   for(const auto& v: outs)
     {
       std::cout<<v;

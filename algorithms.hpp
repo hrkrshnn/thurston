@@ -11,7 +11,8 @@
 namespace th
 {
   const mp::mpc_complex omega{0.5, std::sqrt(3)/2};
-  const std::size_t iterMax = 1000;
+  const std::size_t iterMax = 10000;
+  const double ctol = 1e-10;
 
   template <typename Z>
   auto fundTransform(matrix<Z>& mat)
@@ -91,6 +92,8 @@ namespace th
         ++iter;
       }
 
+    // An assert to verify that the determinant is unchanged
+    assert(det(mat) == oldDet);
     // An assert to verify if the element is in the Fundamental region
     assert(isFundamental());
     // I don't need to return anything, whatever matrix was called, got transformed
@@ -163,19 +166,20 @@ namespace th
         if(M % i == 0)
           {
             auto a = i, d = M/i;
-            for(Z b = 1; b <= d; ++b)
+            for(Z b = 0; b <= d; ++b) // b = 0 case?
               {
-                // gcd(a, b, d) = gcd(gcd(a, b), gcd(b, d))?
-                if(gcd(gcd(a, b), gcd(b, d)) == 1)
+                if(b == 0 || gcd(gcd(a, b), gcd(b, d)) == 1)
                   {
                     matrix<Z> tmp(a, b, 0, d);
-                    matrix<Z> tmp1(-a, b, 0, -d);
+                    // matrix<Z> tmp1(-a, b, 0, -d);
 
                     fundTransform(tmp); // Do a transformation to the
                                         // fundamental domain before pushing it
-                    fundTransform(tmp1);
+                    // no more of the negative matrix because I think its redundant
+                    // fundTransform(tmp1);
+
                     solSpace.push_back(tmp);
-                    solSpace.push_back(tmp1);
+                    // solSpace.push_back(tmp1);
                   }
               }
           }
@@ -205,7 +209,7 @@ namespace th
   template <typename Z>
   auto writeFile(const std::set<matrix<Z>>& outs, const std::string& fname)
   {
-    std::ofstream myfile(fname);
+    std::ofstream myfile("out/" + fname);
 
     myfile<<"x, y\n";
     for(const auto& v:outs)
