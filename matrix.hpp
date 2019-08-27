@@ -2,10 +2,13 @@
 // For complex numbers
 #include <boost/multiprecision/mpc.hpp>
 #include <boost/multiprecision/mpfr.hpp>
+#include <boost/multiprecision/debug_adaptor.hpp>
 
 #include <set>
 
 namespace mp = boost::multiprecision;
+
+using complex = mp::mpc_complex;
 
 namespace th
 {
@@ -78,8 +81,8 @@ namespace th
 
   auto toComplex() const
   {
-    const mp::mpc_complex omega{0.5, std::sqrt(3)/2};
-    mp::mpc_complex z = (c + omega*d)/(a + omega*b);
+      const complex omega{0.5, std::sqrt(3)/2};
+      complex z = (c + omega*d)/(a + omega*b);
     return z;
   }
 

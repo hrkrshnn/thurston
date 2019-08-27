@@ -10,7 +10,7 @@
 
 namespace th
 {
-  const mp::mpc_complex omega{0.5, std::sqrt(3)/2};
+  const complex omega{0.5, std::sqrt(3)/2};
   const std::size_t iterMax = 10000;
   const double ctol = 1e-10;
 
@@ -41,7 +41,7 @@ namespace th
     // Converts matrix into a complex number (c + d*omega)/(a + b*omega)
     auto toComplex = [&mat]()
                      {
-                       mp::mpc_complex num = (mat(1, 0) + omega*mat(1, 1))/(mat(0, 0) + omega*mat(0, 1));
+                       complex num = (mat(1, 0) + omega*mat(1, 1))/(mat(0, 0) + omega*mat(0, 1));
                        return num; // std::move(num)?
                      };
 
@@ -49,7 +49,7 @@ namespace th
     auto isFundamental = [&mat]()
                          {
                            auto z = mat.toComplex();
-                           if(mp::abs(z) >= 1 && z.real() <= 0.5 && z.real() >= -0.5)
+                           if(mp::abs(z) >= 1 && z.real() < 0.5 && z.real() >= -0.5)
                              {
                                return true;
                              }
@@ -63,7 +63,7 @@ namespace th
     while(iter < iterMax)
       {
         auto z = mat.toComplex();
-        if(mp::abs(z) < 1)
+        if(mp::abs(z) < 1 - ctol)
           {
             inversion();
 
@@ -77,7 +77,7 @@ namespace th
             assert(det(mat) == oldDet);
             // do a translation
           }
-        else if(z.real() > 0.5)
+        else if(z.real() >= 0.5)
           {
             Z k = mp::floor(z.real() + 0.5); // TODO: verify
             translate(-k);
@@ -88,6 +88,8 @@ namespace th
           {
             break;
           }
+
+        std::cout<<mat;
 
         ++iter;
       }
@@ -165,22 +167,22 @@ namespace th
       {
         if(M % i == 0)
           {
-            auto a = i, d = M/i;
-            for(Z b = 0; b <= d; ++b) // b = 0 case?
-              {
-                if(b == 0 || gcd(gcd(a, b), gcd(b, d)) == 1)
+            Z a = i, d = M/i;
+            for(Z b = 0; b < d; ++b) // b = 0 case?
                   {
                     matrix<Z> tmp(a, b, 0, d);
+                std::cout<<tmp;
                     // matrix<Z> tmp1(-a, b, 0, -d);
 
                     fundTransform(tmp); // Do a transformation to the
                                         // fundamental domain before pushing it
                     // no more of the negative matrix because I think its redundant
                     // fundTransform(tmp1);
+                std::cout<<std::endl;
 
                     solSpace.push_back(tmp);
                     // solSpace.push_back(tmp1);
-                  }
+
               }
           }
       }
