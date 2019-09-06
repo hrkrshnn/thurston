@@ -71,7 +71,8 @@ auto main(int argc, char* argv[]) -> int
       return 0;
     }
 
-  auto ans = th::genSpace(m);
+
+  auto ans = th::genSpace(m/2);
 
   std::cout<<"After transformation, there are "<<ans.size()<<" elements \n";
   for(auto& v: ans)
@@ -91,6 +92,29 @@ auto main(int argc, char* argv[]) -> int
       // I just need to write the complex numbers
       std::string fName(std::to_string(m) + ".txt");
       th::writeFile(outs, fName);
+    }
+
+  // temporary code for generating the latex version of P(n; 3, 3, 3, 3)
+  if(false)
+    {
+      std::ofstream fout("latextable.tex");
+      fout<<"\\begin{tabular}{c c}\n";
+      for(auto i = 2; i <= 200; i += 2)
+        {
+          auto ans = th::genSpace(i/2);
+          auto outs = th::removeDuplicates(ans);
+
+
+          fout<<i<<" & ";
+          for(const auto& v: outs)
+            {
+              fout<<"\\begin{bmatrix} "<<v(0, 0)<<" & "<<v(0, 1)<<" \\\\"<<v(1, 0)<<" & "<<v(1, 1)<<"\n\\end{bmatrix}\n";
+            }
+
+          // end for the table
+          fout<<"\\\\";
+        }
+      fout<<"\\end{tabular}\n";
     }
   return 0;
 }

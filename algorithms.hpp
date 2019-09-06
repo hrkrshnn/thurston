@@ -42,14 +42,14 @@ namespace th
     auto toComplex = [&mat]()
                      {
                        complex num = (mat(1, 0) + omega*mat(1, 1))/(mat(0, 0) + omega*mat(0, 1));
-                       return num; // std::move(num)?
+                       return num;
                      };
 
     // Function that checks if the element is in the fundamental domain
     auto isFundamental = [&mat]()
                          {
                            auto z = mat.toComplex();
-                           if(mp::abs(z) >= 1 && z.real() < 0.5 && z.real() >= -0.5)
+                           if(mp::abs(z) >= 1 - ctol && z.real() < 0.5 && z.real() >= -0.5)
                              {
                                return true;
                              }
