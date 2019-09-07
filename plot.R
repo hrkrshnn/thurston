@@ -30,7 +30,7 @@ drawBackgroundPoincare <- function()
 
 }
 
-draw <- function(M=4)
+draw <- function(M=4, poincare=F)
 {
     outs <- read.csv(paste("out/", M, ".txt", sep=""))
     xs <- outs[[1]]
@@ -45,12 +45,34 @@ draw <- function(M=4)
         zs <- c(zs, xs[i] + ys[i]*1i)
     }
 
+    if(poincare)
+    {
     dzs <- sapply(zs, toDiscModel)
-
-    ## plot(xs, ys, xlim=c(-1, 1), ylim=c(0, ymax), asp=1, cex=0.5, col="blue")
     drawBackgroundPoincare()
     points(dzs,  asp=1, cex=0.2, col="blue")
+    }
+    else
+    {
+        yend <- sqrt(1 - 0.5*0.5)
+        plot(c(), xlim=c(-1, 1), ylim=c(0, ymax), asp=1, cex=0.5, col="blue", xlab="", ylab="")
+        grid()
+        lines(c(0.5, 0.5), c(yend, ymax + 2), col="blue")
+        lines(c(-0.5, -0.5), c(yend, ymax + 2), col="blue")
+        xseq <- seq(from=-0.5, to=0.5, length.out=1000)
+        yseq <- sqrt(1 - xseq*xseq)
+        points(xseq, yseq, cex=0.05, col="blue")
+        points(xs, ys, cex=1.3, col="black")
+    }
 
 }
 
-
+generatePDFs <- function()
+{
+    nums <- c(6, 8, 10, 12)
+    for(n in nums)
+    {
+        pdf(paste("out/", n, ".pdf", sep=""))
+        draw(n)
+        dev.off()
+    }
+}

@@ -59,13 +59,34 @@ drawGeodesic  <- function(u1, u2, v1, v2, col="black", extend=F){
         angle1 <- findAngle(u1, u2, -a/2, -b/2)
         angle2 <- findAngle(v1, v2, -a/2, -b/2)
 
+        centerAngle <- (angle1 + angle2)/2
+        t1 <- -a/2 + r*cos(centerAngle)
+        t2 <- -b/2 + r*sin(centerAngle)
+        ## This means that the smaller angle needs a plus pi
+        if(t1*t1 + t2*t2 > 1) {
         if(angle1 < angle2){
-            draw.arc(-a/2, -b/2, radius=r, angle1=angle1, angle2=angle2, col=col)
+                angle1 <- angle1 + 2*pi
         }
         else{
-            draw.arc(-a/2, -b/2, radius=r, angle1=angle2, angle2=angle1, col=col)
+                angle2 <- angle2 + 2*pi
         }
     }
+        draw.arc(-a/2, -b/2, radius=r, angle1=angle1, angle2=angle2, col=col)
+
+    }
+}
+
+## Function that does translation. Should work if (x, y) represents a complex
+## number or when y = 0 and x is the complex number!
+translation <- function(x){
+    return((2*1i*x + 1 - x)/(2*1i + 1 - x))
+}
+
+
+## Function that does inversion. Should work if (x, y) represent a complex
+## number or when y = 0 and x is the complex number!
+inversion <- function(x, y=0){
+    return(-x)
 }
 
 
