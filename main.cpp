@@ -4,11 +4,9 @@
 #include <assert.h>
 #include <string>
 
-
+#include "algorithms.hpp"
 #include <boost/program_options.hpp>
 
-
-#include "algorithms.hpp"
 
 // template <typename Z>
 // using matrix = boost::numeric::ublas::matrix<Z>;
@@ -20,16 +18,15 @@ namespace po = boost::program_options;
 auto main(int argc, char* argv[]) -> int
 {
 
-  int m, n;
+  int m;
   bool writeFile = false;
 
   // Parsing the arguments
   po::options_description desc("Allowed options");
   desc.add_options()
     ("help", "produce help message")
-    ("triangulations,t", po::value<int>(&m)->default_value(6), "The number of triangulations")
-    ("range,r", po::value<int>(&n)->default_value(10), "The range of numbers")
-    ("writefile,w", "Writes to file n.txt, where n is the number of triangulations");
+    ("triangulations,t", po::value<int>(&m)->default_value(6), "The number of triangles")
+    ("writefile,w", "Writes to file n.txt, where n is the number of triangles");
 
   try
     {
@@ -62,15 +59,11 @@ auto main(int argc, char* argv[]) -> int
 
   std::cout<<"Number of triangulations: "<<m<<"\n";
 
-  // This was the old algorithm.
-  // auto ans = th::genPoints(m, n);
-
   if(m % 2 != 0)
     {
       std::cout<<"The number of triangulations must be even"<<std::endl;
       return 0;
     }
-
 
   auto ans = th::genSpace(m/2);
 
@@ -94,31 +87,5 @@ auto main(int argc, char* argv[]) -> int
       th::writeFile(outs, fName);
     }
 
-  // temporary code for generating the latex version of P(n; 3, 3, 3, 3)
-  if(false)
-    {
-      std::ofstream fout("latextable.tex");
-      fout<<"\\begin{tabular}{c c}\n";
-      for(auto i = 2; i <= 200; i += 2)
-        {
-          auto ans = th::genSpace(i/2);
-          auto outs = th::removeDuplicates(ans);
-
-
-          fout<<i<<" & ";
-          for(const auto& v: outs)
-            {
-              fout<<"\\begin{bmatrix} "<<v(0, 0)<<" & "<<v(0, 1)<<" \\\\"<<v(1, 0)<<" & "<<v(1, 1)<<"\n\\end{bmatrix}\n";
-            }
-
-          // end for the table
-          fout<<"\\\\";
-        }
-      fout<<"\\end{tabular}\n";
-    }
   return 0;
 }
-
-// [a b]
-// [c d]
-// ad - bc = M

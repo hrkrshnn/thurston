@@ -21,7 +21,8 @@ auto genPoints(T m)
 {
   std::vector<Point<T>> pts;
 
-  for(T n = 0; n <= std::sqrt(m); ++n)
+  // At what point should I put my limit
+  for(T n = std::sqrt(m); n <= 2*m; ++n)
     for(T p1 = 0; p1 <= n; ++p1)
       for(T p2 = 0; p2 + p1 <= n; ++p2)
         for(T p3 = 0; p3 + p1 <= n && p2 + p3 <= n; ++p3)
@@ -34,14 +35,17 @@ auto genPoints(T m)
 namespace std
 {
   template <typename T, typename S>
-  operator<<(std::pair<T, S>
+  ostream& operator<<(ostream& out, const pair<T, S>& p)
+  {
+    return out<<"("<<p.first<<", "<<p.second<<")";
+  }
 }
 
 int main()
 {
   std::vector<std::pair<int, int>> outs;
 
-  decltype(outs.size()) maxVal = 1000;
+  decltype(outs.size()) maxVal = 500;
 
   for(decltype(maxVal) i = 1; i < maxVal; ++i)
     {
@@ -49,14 +53,7 @@ int main()
       outs.push_back(std::make_pair(i, tmp));
     }
 
-  std::vector<std::string> lstr;
-
-  for(const auto& v: outs)
-    {
-      lstr.push_back(std::string("(") + std::to_string(v.first) + ", " + std::to_string(v.second) + ")");
-    }
-
-  std::copy(lstr.cbegin(), lstr.cend(), std::experimental::make_ostream_joiner(std::cout, ", "));
+  std::copy(outs.cbegin(), outs.cend(), std::experimental::make_ostream_joiner(std::cout, ", "));
 
   std::cout<<"\n";
 

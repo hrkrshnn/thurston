@@ -99,3 +99,8 @@ example <- function(){
     drawGeodesic(0.5, 0.5, -0.5, 0.5, col="blue")
 }
 
+## A function that converts a point in the upper half space to the disc model
+toDiscModel <- function(z)
+{
+    return ((z-1i)/(z+1i))
+}

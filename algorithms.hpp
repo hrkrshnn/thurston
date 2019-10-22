@@ -101,6 +101,7 @@ namespace th
     // I don't need to return anything, whatever matrix was called, got transformed
   }
 
+  // The old "monte-carlo" style algorithm to generate the matrices
   template <typename Z>
   auto genPoints(Z M, Z range)
   {
@@ -207,6 +208,12 @@ namespace th
     return outs;
   }
 
+  complex toDiscModel(const complex& z)
+  {
+    complex i = complex{0, 1};
+    return (z - i)/(z + i);
+  }
+
   // Write a data structure that is iterable to a file
   template <typename Z>
   auto writeFile(const std::set<matrix<Z>>& outs, const std::string& fname)
@@ -216,10 +223,11 @@ namespace th
     myfile<<"x, y\n";
     for(const auto& v:outs)
       {
-        auto x = v.toComplex();
+        auto x = toDiscModel(v.toComplex());
         myfile<<x.real()<<","<<x.imag()<<"\n";              // The "\n" will come from the matrix
       }
   }
+
 
 
 } // namespace th
