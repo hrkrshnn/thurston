@@ -25,8 +25,8 @@ auto main(int argc, char* argv[]) -> int
   po::options_description desc("Allowed options");
   desc.add_options()
     ("help", "produce help message")
-    ("triangulations,t", po::value<int>(&m)->default_value(6), "The number of triangles")
-    ("writefile,w", "Writes to file n.txt, where n is the number of triangles");
+    ("triangles,t", po::value<int>(&m)->default_value(6), "The number of triangles/2")
+    ("writefile,w", "Writes to file n.txt, where 2*n is the number of triangles");
 
   try
     {
@@ -57,11 +57,11 @@ auto main(int argc, char* argv[]) -> int
       return 1;
     }
 
-  std::cout<<"Number of triangulations: "<<m<<"\n";
+  std::cout<<"Number of triangles: "<<2*m<<"\n";
 
   if(m % 2 != 0)
     {
-      std::cout<<"The number of triangulations must be even"<<std::endl;
+      std::cout<<"The number of triangles must be even"<<std::endl;
       return 0;
     }
 

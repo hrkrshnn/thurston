@@ -8,8 +8,6 @@ for(i in 0:length(xs)){
     zs <- c(zs, xs[i] + 1i*ys[i])
 }
 
-
-
 z1 <- 0.5 + sqrt(3)*0.5*1i
 z2 <- -0.5 + sqrt(3)*0.5*1i
 z3 <- 1
@@ -30,58 +28,4 @@ drawGeodesic(1, 0, 0, y2)
 drawGeodesic(0, y1, 0, y2)
 recursivePlot(list(z1, z2, z3, zs), 9, col="blue", cex=0.5)
 dev.off()
-
-## z1 <- translation(z1)
-## z2 <- translation(z2)
-## z3 <- translation(z3)
-## drawGeodesic(Re(z1), Im(z1), Re(z2), Im(z2))
-## drawGeodesic(Re(z1), Im(z1), Re(z3), Im(z3))
-## drawGeodesic(Re(z2), Im(z2), Re(z3), Im(z3))
-## zs <- translation(zs)
-## points(zs, cex=0.5, col="blue")
-
-## z1 <- inversion(z1)
-## z2 <- inversion(z2)
-## z3 <- inversion(z3)
-## drawGeodesic(Re(z1), Im(z1), Re(z2), Im(z2))
-## drawGeodesic(Re(z1), Im(z1), Re(z3), Im(z3))
-## drawGeodesic(Re(z2), Im(z2), Re(z3), Im(z3))
-## zs <- inversion(zs)
-## points(zs, cex=0.5, col="blue")
-
-
-## ## ls is a list. First one is z0, z2, z3. Then our list
-## recursivePlot  <- function(ls, depth=1, col="black", cex=0.5){
-##     if(depth <= 0){
-##         return(c())
-##     }
-##     z1 <- ls[[1]]
-##     z2 <- ls[[2]]
-##     z3 <- ls[[3]]
-##     zs <- ls[[4]]
-
-##     z1t <- translation(z1)
-##     z2t <- translation(z2)
-##     z3t <- translation(z3)
-##     zst <- translation(zs)
-##     drawGeodesic(Re(z1t), Im(z1t), Re(z2t), Im(z2t))
-##     drawGeodesic(Re(z1t), Im(z1t), Re(z3t), Im(z3t))
-##     drawGeodesic(Re(z2t), Im(z2t), Re(z3t), Im(z3t))
-##     points(zst, cex=cex, col=col)
-##     lst <- list(z1t, z2t, z3t, zst)
-
-##     z1i <- inversion(z1)
-##     z2i <- inversion(z2)
-##     z3i <- inversion(z3)
-##     zsi <- inversion(zs)
-##     drawGeodesic(Re(z1i), Im(z1i), Re(z2i), Im(z2i))
-##     drawGeodesic(Re(z1i), Im(z1i), Re(z3i), Im(z3i))
-##     drawGeodesic(Re(z2i), Im(z2i), Re(z3i), Im(z3i))
-##     points(zsi, cex=cex, col=col)
-##     lsi <- list(z1i, z2i, z3i, zsi)
-
-##     ## The recursion
-##     recursivePlot(lst, depth-1, col=col, cex=0.9*cex)
-##     recursivePlot(lsi, depth-1, col=col, cex=0.9*cex)
-## }
 
