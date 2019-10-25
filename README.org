@@ -1,4 +1,8 @@
 * Thurson
+#+CAPTION: P(246, 3, 3, 3, 3): The space of all triangulations of the sphere with
+2*246 triangles
+#+NAME:   fig:p246
+[[./246.png]]
   The program does computations of the space P(n; 3, 3, 3, 3), i.e, given 2*n
   equilateral triangles, the space of all different Tetrahedras that can be
   formed by gluing them together.
