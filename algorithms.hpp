@@ -78,8 +78,8 @@ namespace th
             // do a translation
           }
         else if(z.real() >= 0.5)
-          {
-            Z k = mp::floor(z.real() + 0.5); // TODO: verify
+              {
+                Z k = mp::floor(z.real() + 0.5); // TODO: verify
             translate(-k);
 
             assert(det(mat) == oldDet);
@@ -170,19 +170,19 @@ namespace th
           {
             Z a = i, d = M/i;
             for(Z b = 0; b < d; ++b) // b = 0 case?
-                  {
-                    matrix<Z> tmp(a, b, 0, d);
+              {
+                matrix<Z> tmp(a, b, 0, d);
                 std::cout<<tmp;
-                    // matrix<Z> tmp1(-a, b, 0, -d);
+                // matrix<Z> tmp1(-a, b, 0, -d);
 
-                    fundTransform(tmp); // Do a transformation to the
-                                        // fundamental domain before pushing it
-                    // no more of the negative matrix because I think its redundant
-                    // fundTransform(tmp1);
+                fundTransform(tmp); // Do a transformation to the
+                // fundamental domain before pushing it
+                // no more of the negative matrix because I think its redundant
+                // fundTransform(tmp1);
                 std::cout<<std::endl;
 
-                    solSpace.push_back(tmp);
-                    // solSpace.push_back(tmp1);
+                solSpace.push_back(tmp);
+                // solSpace.push_back(tmp1);
 
               }
           }

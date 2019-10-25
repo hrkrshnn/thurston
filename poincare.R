@@ -64,13 +64,13 @@ drawGeodesic  <- function(u1, u2, v1, v2, col="black", extend=F){
         t2 <- -b/2 + r*sin(centerAngle)
         ## This means that the smaller angle needs a plus pi
         if(t1*t1 + t2*t2 > 1) {
-        if(angle1 < angle2){
+            if(angle1 < angle2){
                 angle1 <- angle1 + 2*pi
-        }
-        else{
+            }
+            else{
                 angle2 <- angle2 + 2*pi
+            }
         }
-    }
         draw.arc(-a/2, -b/2, radius=r, angle1=angle1, angle2=angle2, col=col)
 
     }

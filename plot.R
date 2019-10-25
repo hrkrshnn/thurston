@@ -47,9 +47,9 @@ draw <- function(M=4, poincare=F)
 
     if(poincare)
     {
-    dzs <- sapply(zs, toDiscModel)
-    drawBackgroundPoincare()
-    points(dzs,  asp=1, cex=0.2, col="blue")
+        dzs <- sapply(zs, toDiscModel)
+        drawBackgroundPoincare()
+        points(dzs,  asp=1, cex=0.2, col="blue")
     }
     else
     {

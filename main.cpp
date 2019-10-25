@@ -30,15 +30,15 @@ auto main(int argc, char* argv[]) -> int
 
   try
     {
-  po::variables_map vm;
-  po::store(po::parse_command_line(argc, argv, desc), vm);
-  po::notify(vm);
+      po::variables_map vm;
+      po::store(po::parse_command_line(argc, argv, desc), vm);
+      po::notify(vm);
 
-  if(vm.count("help"))
-    {
-      std::cout<<desc;
-      return 0;
-    }
+      if(vm.count("help"))
+        {
+          std::cout<<desc;
+          return 0;
+        }
       if(vm.count("writefile"))
         {
           writeFile = true;
