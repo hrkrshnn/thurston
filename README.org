@@ -20,7 +20,7 @@
     --help                      produce help message
     -t [ --triangles ] arg (=6) The number of triangles/2
     -w [ --writefile ]          Writes to file n.txt, where 2*n is the number of 
-                              triangles
+                                triangles
   $ ./thurston -t 10
   Number of triangles: 20
   [1, 0], [0, 5] z:(2.5,4.33013)
