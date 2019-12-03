@@ -8,12 +8,8 @@
 #include <boost/program_options.hpp>
 
 
-// template <typename Z>
-// using matrix = boost::numeric::ublas::matrix<Z>;
 namespace mp = boost::multiprecision;
 namespace po = boost::program_options;
-
-// 6th root of unity
 
 auto main(int argc, char* argv[]) -> int
 {
@@ -26,7 +22,7 @@ auto main(int argc, char* argv[]) -> int
   desc.add_options()
     ("help", "produce help message")
     ("triangles,t", po::value<int>(&m)->default_value(6), "The number of triangles/2")
-    ("writefile,w", "Writes to file n.txt, where 2*n is the number of triangles");
+    ("writefile,w", "Writes to file n.txt inside the out folder, where 2*n is the number of triangles");
 
   try
     {

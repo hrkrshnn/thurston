@@ -16,7 +16,7 @@ recursivePlot  <- function(ls, depth=1, col="black", cex=0.5){
     drawGeodesic(Re(z1t), Im(z1t), Re(z2t), Im(z2t))
     drawGeodesic(Re(z1t), Im(z1t), Re(z3t), Im(z3t))
     drawGeodesic(Re(z2t), Im(z2t), Re(z3t), Im(z3t))
-    points(zst, cex=cex, col=col)
+    points(zst, cex=cex, pch=19, col=col)
     lst <- list(z1t, z2t, z3t, zst)
 
     z1i <- inversion(z1)
@@ -26,7 +26,7 @@ recursivePlot  <- function(ls, depth=1, col="black", cex=0.5){
     drawGeodesic(Re(z1i), Im(z1i), Re(z2i), Im(z2i))
     drawGeodesic(Re(z1i), Im(z1i), Re(z3i), Im(z3i))
     drawGeodesic(Re(z2i), Im(z2i), Re(z3i), Im(z3i))
-    points(zsi, cex=cex, col=col)
+    points(zsi, cex=cex, pch=19, col=col)
     lsi <- list(z1i, z2i, z3i, zsi)
 
     ## The recursion
@@ -34,7 +34,7 @@ recursivePlot  <- function(ls, depth=1, col="black", cex=0.5){
     recursivePlot(lsi, depth-1, col=col, cex=0.9*cex)
 }
 
-outs <- read.csv(paste("out/", 246, ".txt", sep=""))
+outs <- read.csv(paste("../out/", 246, ".txt", sep=""))
 xs <- outs[[1]]
 ys <- outs[[2]]
 zs <- c()
@@ -52,11 +52,11 @@ z2 <- toDiscModel(z2)
 
 
 ## (1, 0), (0, y1), (0, y2)
-## pdf("246.png", width=7, height=7)
-png("246.png")
+pdf("246.pdf", width=7, height=7)
+## png("246.png")
 plot(c(), xlim=c(-1, 1), ylim=c(-1, 1), asp=1, xlab=NULL, ylab=NULL, main=NULL, ann=F, axes=F)
 drawCircle()
-points(zs, cex=0.5, col="blue")
+points(zs, cex=0.5, pch=19, col="blue")
 ## grid()
 drawGeodesic(1, 0, 0, y1)
 drawGeodesic(1, 0, 0, y2)

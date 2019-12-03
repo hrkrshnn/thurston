@@ -1,3 +1,6 @@
+#ifndef MATRIX_HPP
+#define MATRIX_HPP
+
 #include "iostream"
 // For complex numbers
 #include <boost/multiprecision/mpc.hpp>
@@ -119,3 +122,5 @@ namespace th
   }
 
 }
+
+#endif  // MATRIX_HPP
