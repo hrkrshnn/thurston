@@ -17,6 +17,8 @@ namespace th
   const std::size_t iterMax = 10000;
   const double ctol = 1e-10;
 
+  // Given a matrix mat, this applies the algorithm 2 from the thesis to
+  // transform it to a fundamental region of the hyperbolic space.
   template <typename Z>
   auto fundTransform(matrix<Z>& mat)
   {
@@ -103,7 +105,8 @@ namespace th
     assert(isFundamental());
   }
 
-  // The old "monte-carlo" style algorithm to generate the matrices
+  // The old "monte-carlo" style algorithm to generate the matrices. See
+  // algorithm 3 in the thesis.
   template <typename Z>
   auto genPoints(Z M, Z range)
   {
@@ -150,15 +153,15 @@ namespace th
     return results;
   }
 
-  // computes the GCD of two number
-  // TODO: find a method that doesn't use the full extended euclidean method
+  // computes the GCD of two number.
   template <typename Z>
   auto gcd(Z a, Z b)
   {
     return boost::integer::extended_euclidean(a, b).gcd;
   }
 
-  // Computes matrices of the form [a b][0 d] such that b < d and ad = M.
+  // Computes matrices of the form [a b][0 d] such that b < d and ad = M. This
+  // implements Algorithm 1 and calls Algorithm 2 (from the thesis.)
   template <typename Z>
   auto genSpace(Z M)
   {
@@ -186,18 +189,14 @@ namespace th
     return solSpace;
   }
 
+  // Since our algorithm may give us duplicates in the fundamental region, this
+  // will remove it.
   template <typename Z>
   auto removeDuplicates(std::vector<matrix<Z>> mats)
   {
     // constructs a std::set and thereby removing the duplicates
 
-    std::set<matrix<Z>> outs;
-
-    auto dimen = mats.size();
-    for(decltype(dimen) i = 0; i < dimen; ++i)
-      {
-        outs.insert(mats[i]);
-      }
+    std::set<matrix<Z>> outs(std::cbegin(mats), std::cend(mats));
 
     return outs;
   }
@@ -212,13 +211,13 @@ namespace th
   template <typename Z>
   auto writeFile(const std::set<matrix<Z>>& outs, const std::string& fname)
   {
-    std::ofstream myfile("out/" + fname);
+    std::ofstream myfile("../out/" + fname);
 
     myfile<<"x, y\n";
     for(const auto& v:outs)
       {
         auto x = toDiscModel(v.toComplex());
-        myfile<<x.real()<<","<<x.imag()<<"\n";              // The "\n" will come from the matrix
+        myfile<<x.real()<<","<<x.imag()<<"\n";
       }
   }
 
