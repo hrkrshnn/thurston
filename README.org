@@ -25,3 +25,11 @@
       genPoints: this runs the fundTransform algorithm on 'random' matrices of
       determinant $2n$. Given a large enough sample size, in practice, the
       algorithm seems to exhaust the space P(n; 3, 3, 3, 3).
+** R Scripts for visualization
+   Some R scripts are included to help visualize the output of the C++ program.
+   These scripts can be found under the folder: r-scr.
+
+   The file poincare.R provides a small R library that can help plot the
+   Poincare Upper half space.
+
+   

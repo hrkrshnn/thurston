@@ -8,12 +8,8 @@
 #include <boost/program_options.hpp>
 
 
-// template <typename Z>
-// using matrix = boost::numeric::ublas::matrix<Z>;
 namespace mp = boost::multiprecision;
 namespace po = boost::program_options;
-
-// 6th root of unity
 
 auto main(int argc, char* argv[]) -> int
 {

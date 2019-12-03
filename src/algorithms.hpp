@@ -1,3 +1,6 @@
+#ifndef ALGORITHMS_HPP
+#define ALGORITHMS_HPP
+
 #include "matrix.hpp"
 
 #include <string>
@@ -222,3 +225,5 @@ namespace th
 
 
 } // namespace th
+
+#endif  // ALGORITHMS_HPP
