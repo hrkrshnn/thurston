@@ -7,9 +7,6 @@
 #include <fstream>
 // For the extended euclidean algorithm
 #include <boost/integer/extended_euclidean.hpp>
-// For matrices
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/io.hpp>
 
 namespace th
 {
@@ -216,7 +213,7 @@ namespace th
     myfile<<"x, y\n";
     for(const auto& v:outs)
       {
-        auto x = toDiscModel(v.toComplex());
+        auto x = v.toComplex();
         myfile<<x.real()<<","<<x.imag()<<"\n";
       }
   }
