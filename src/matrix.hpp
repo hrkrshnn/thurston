@@ -1,13 +1,13 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
-#include "iostream"
+#include <iostream>
+#include <set>
+
 // For complex numbers
 #include <boost/multiprecision/mpc.hpp>
 #include <boost/multiprecision/mpfr.hpp>
 #include <boost/multiprecision/debug_adaptor.hpp>
-
-#include <set>
 
 namespace mp = boost::multiprecision;
 
@@ -38,24 +38,25 @@ namespace th
     // A constructor
     matrix(Z a0, Z b0, Z c0, Z d0): a(a0), b(b0), c(c0), d(d0)
     {
+      ;
     }
 
     // operator ()
     Z& operator()(const bool i, const bool j)
         {
       if(i == 0 && j == 0) return a;
-      if(i == 0 && j == 1) return b;
-      if(i == 1 && j == 0) return c;
-      if(i == 1 && j == 1) return d;
+      else if(i == 0 && j == 1) return b;
+      else if(i == 1 && j == 0) return c;
+      else return d;
     }
 
     // operator ()
     const Z operator()(const bool i, const bool j) const
             {
       if(i == 0 && j == 0) return a;
-      if(i == 0 && j == 1) return b;
-      if(i == 1 && j == 0) return c;
-      if(i == 1 && j == 1) return d;
+      else if(i == 0 && j == 1) return b;
+      else if(i == 1 && j == 0) return c;
+      else return d;
     }
 
     // Returns a representative in the upper half space of the Complex plane or
@@ -79,20 +80,16 @@ namespace th
       auto y = mp::abs(mat.toComplex());
 
       if(mp::abs(x - y) < tol)
-        {
           return false;
-        }
       else
-        {
           return x < y;
         }
-    }
 
     // Pretty print the operator to output stream.
     template <typename S>
     friend std::ostream& operator<< (std::ostream& out, const matrix<S>& mat)
     {
-      out<<"["<<mat.a<<", "<<mat.b<<"], ["<<mat.c<<", "<<mat.d<<"] z:"<<mat.toComplex()<<std::endl;
+      out<<"["<<mat.a<<", "<<mat.b<<"], ["<<mat.c<<", "<<mat.d<<"] z:"<<mat.toComplex()<<"\n";
       return out;
     }
 

@@ -1,12 +1,11 @@
-#include <iostream>
-#include <vector>
-#include <set>
 #include <assert.h>
+#include <iostream>
+#include <set>
 #include <string>
+#include <vector>
 
 #include "algorithms.hpp"
 #include <boost/program_options.hpp>
-
 
 namespace mp = boost::multiprecision;
 namespace po = boost::program_options;
@@ -22,7 +21,7 @@ auto main(int argc, char* argv[]) -> int
   desc.add_options()
     ("help", "produce help message")
     ("triangles,t", po::value<int>(&m)->default_value(6), "The number of triangles/2")
-    ("writefile,w", "Writes to file n.txt inside the out folder, where 2*n is the number of triangles");
+    ("writefile,w", po::value<bool>(&writeFile)->default_value(false), "Writes to file n.txt inside the out folder, where 2*n is the number of triangles");
 
   try
     {
@@ -34,10 +33,6 @@ auto main(int argc, char* argv[]) -> int
         {
           std::cout<<desc;
           return 0;
-        }
-      if(vm.count("writefile"))
-        {
-          writeFile = true;
         }
     }
   catch(std::exception& e)
@@ -61,9 +56,13 @@ auto main(int argc, char* argv[]) -> int
       return 0;
     }
 
-  // auto ans = th::genSpace(m/2);
+  // Apply the main algorithm from the thesis. The next
+  auto ans = th::genSpace(m/2);
 
-  auto ans = th::genPoints(m/2, m/2);
+  // If Monte-carlo style algorithm is needed, comment out the previous line and
+  // use the following line instead:
+
+  // auto ans = th::genPoints(m/2, m/2);
 
   std::cout<<"After transformation, there are "<<ans.size()<<" elements \n";
   for(auto& v: ans)
@@ -71,9 +70,11 @@ auto main(int argc, char* argv[]) -> int
       std::cout<<v;
     }
 
-  // auto outs = th::removeDuplicates(ans);
-  auto& outs = ans;
-  std::cout<<"\nAfter removing duplicates, there are "<<outs.size()<<" elements \n";
+  // If monte-carlo algorithm is needed, comment the following line and
+  // uncomment the line after that.
+  auto outs = th::removeDuplicates(ans);
+  // auto& outs = ans;
+  std::cout<<"\nAfter removing duplicates, there are "<<outs.size()<<" elements.\n";
   for(const auto& v: outs)
     {
       std::cout<<v;

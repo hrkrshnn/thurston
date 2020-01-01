@@ -52,19 +52,16 @@ namespace th
                          {
                            auto z = mat.toComplex();
                            if(mp::abs(z) >= 1 - ctol && z.real() < 0.5 && z.real() >= -0.5)
-                             {
                                return true;
-                             }
                            else
-                             {
                                return false;
-                             }
                          };
 
     std::size_t iter = 0;
     while(iter < iterMax)
       {
         auto z = mat.toComplex();
+
         if(mp::abs(z) < 1 - ctol)
           {
             inversion();
@@ -87,11 +84,7 @@ namespace th
             assert(det(mat) == oldDet);
           }
         else                      // the number is in the fundamental region
-          {
             break;
-          }
-
-        // std::cout<<mat;
 
         ++iter;
       }
@@ -107,9 +100,7 @@ namespace th
   template <typename Z>
   auto genPoints(Z M, Z range)
   {
-    // a set because it handles the duplicates
     std::vector<matrix<Z>> vec;
-    std::set<matrix<Z>> results;
 
     for(Z a1 = 1; a1 < M + range; ++a1)
       {
@@ -117,10 +108,8 @@ namespace th
           {
             auto res = boost::integer::extended_euclidean(a1, b1);
 
-
             auto d = res.x;
             auto c = res.y;
-
             auto gcd = res.gcd;
 
             auto a = a1*M/gcd;      // TODO Cautious about integer overflow?
@@ -138,15 +127,14 @@ namespace th
         fundTransform(v);
       }
 
-    for(const auto& v: vec)
-      {
-        results.insert(v);
-      }
+    // A set that will handle the duplicates because of how operator< is defined
+    // in matrix.hpp
+    std::set<matrix<Z>> results(vec.begin(), vec.end());
 
     return results;
   }
 
-  // computes the GCD of two number.
+  // computes the GCD of two number; a wrapper around the boost library.
   template <typename Z>
   auto gcd(Z a, Z b)
   {
@@ -175,7 +163,6 @@ namespace th
                 fundTransform(tmp); // Do a transformation to the
 
                 // fundamental domain before pushing it
-                // TODO Fix this "\n" in the code
                 std::cout<<"\n";
                 fundTransform(tmp1);
                 std::cout<<"\n";
