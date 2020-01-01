@@ -129,7 +129,7 @@ namespace th
 
     // A set that will handle the duplicates because of how operator< is defined
     // in matrix.hpp
-    std::set<matrix<Z>> results(vec.begin(), vec.end());
+    std::set<matrix<Z>> results(std::cbegin(vec), std::cend(vec));
 
     return results;
   }
@@ -182,7 +182,6 @@ namespace th
   auto removeDuplicates(std::vector<matrix<Z>> mats)
   {
     // constructs a std::set and thereby removing the duplicates
-
     std::set<matrix<Z>> outs(std::cbegin(mats), std::cend(mats));
 
     return outs;
@@ -194,7 +193,10 @@ namespace th
     return (z - i)/(z + i);
   }
 
-  // Write a data structure that is iterable to a file
+  // Write the output to a file. Note that the output is written as points in
+  // the Poincare Disc model of the hyperbolic space. If you want points in the
+  // Poincare upper-half space model, then don't compose with the toDiscModel
+  // function.
   template <typename Z>
   auto writeFile(const std::set<matrix<Z>>& outs, const std::string& fname)
   {
@@ -203,12 +205,10 @@ namespace th
     myfile<<"x, y\n";
     for(const auto& v:outs)
       {
-        auto x = v.toComplex();
+        auto x = toDiscModel(v.toComplex());
         myfile<<x.real()<<","<<x.imag()<<"\n";
       }
   }
-
-
 
 } // namespace th
 

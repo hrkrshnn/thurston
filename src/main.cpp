@@ -21,7 +21,7 @@ auto main(int argc, char* argv[]) -> int
   desc.add_options()
     ("help", "produce help message")
     ("triangles,t", po::value<int>(&m)->default_value(6), "The number of triangles/2")
-    ("writefile,w", po::value<bool>(&writeFile)->default_value(false), "Writes to file n.txt inside the out folder, where 2*n is the number of triangles");
+    ("writefile,w", "Writes to file n.txt inside the out folder, where 2*n is the number of triangles");
 
   try
     {
@@ -34,6 +34,8 @@ auto main(int argc, char* argv[]) -> int
           std::cout<<desc;
           return 0;
         }
+      if(vm.count("writefile"))
+        writeFile = true;
     }
   catch(std::exception& e)
     {
@@ -70,7 +72,7 @@ auto main(int argc, char* argv[]) -> int
       std::cout<<v;
     }
 
-  // If monte-carlo algorithm is needed, comment the following line and
+  // If Monte-carlo algorithm is needed, comment the following line and
   // uncomment the line after that.
   auto outs = th::removeDuplicates(ans);
   // auto& outs = ans;
