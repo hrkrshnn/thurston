@@ -91,7 +91,7 @@ namespace th
             break;
           }
 
-        std::cout<<mat;
+        // std::cout<<mat;
 
         ++iter;
       }
@@ -126,11 +126,7 @@ namespace th
             auto a = a1*M/gcd;      // TODO Cautious about integer overflow?
             auto b = b1*M/gcd;
 
-            matrix<Z> mat;
-            mat(0, 0) = a;
-            mat(0, 1) = -b;
-            mat(1, 0) = c;
-            mat(1, 1) = d;
+            matrix<Z> mat{a, -b, c, d};
 
             assert(det(mat) == M);
             vec.push_back(mat);
@@ -174,11 +170,18 @@ namespace th
                 matrix<Z> tmp(a, b, 0, d);
                 std::cout<<tmp;
 
+                matrix<Z> tmp1(-a, b, 0, -d);
+
                 fundTransform(tmp); // Do a transformation to the
+
                 // fundamental domain before pushing it
-                std::cout<<std::endl;
+                // TODO Fix this "\n" in the code
+                std::cout<<"\n";
+                fundTransform(tmp1);
+                std::cout<<"\n";
 
                 solSpace.push_back(tmp);
+                solSpace.push_back(tmp1);
               }
           }
       }

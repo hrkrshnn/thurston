@@ -61,7 +61,9 @@ auto main(int argc, char* argv[]) -> int
       return 0;
     }
 
-  auto ans = th::genSpace(m/2);
+  // auto ans = th::genSpace(m/2);
+
+  auto ans = th::genPoints(m/2, m/2);
 
   std::cout<<"After transformation, there are "<<ans.size()<<" elements \n";
   for(auto& v: ans)
@@ -69,7 +71,8 @@ auto main(int argc, char* argv[]) -> int
       std::cout<<v;
     }
 
-  auto outs = th::removeDuplicates(ans);
+  // auto outs = th::removeDuplicates(ans);
+  auto& outs = ans;
   std::cout<<"\nAfter removing duplicates, there are "<<outs.size()<<" elements \n";
   for(const auto& v: outs)
     {

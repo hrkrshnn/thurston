@@ -34,7 +34,7 @@ recursivePlot  <- function(ls, depth=1, col="black", cex=0.5){
     recursivePlot(lsi, depth-1, col=col, cex=0.9*cex)
 }
 
-outs <- read.csv(paste("../out/", 246, ".txt", sep=""))
+outs <- read.csv(paste("../out/", 492, ".txt", sep=""))
 xs <- outs[[1]]
 ys <- outs[[2]]
 zs <- c()
@@ -61,6 +61,6 @@ points(zs, cex=0.5, pch=19, col="blue")
 drawGeodesic(1, 0, 0, y1)
 drawGeodesic(1, 0, 0, y2)
 drawGeodesic(0, y1, 0, y2)
-recursivePlot(list(z1, z2, z3, zs), 5, col="blue", cex=0.5)
+recursivePlot(list(z1, z2, z3, zs), 7, col="blue", cex=0.5)
 ## dev.off()
 
