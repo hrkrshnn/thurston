@@ -43,7 +43,7 @@ namespace th
 
     // operator ()
     Z& operator()(const bool i, const bool j)
-        {
+    {
       if(i == 0 && j == 0) return a;
       else if(i == 0 && j == 1) return b;
       else if(i == 1 && j == 0) return c;
@@ -52,7 +52,7 @@ namespace th
 
     // operator ()
     const Z operator()(const bool i, const bool j) const
-            {
+    {
       if(i == 0 && j == 0) return a;
       else if(i == 0 && j == 1) return b;
       else if(i == 1 && j == 0) return c;
@@ -80,10 +80,10 @@ namespace th
       auto y = mp::abs(mat.toComplex());
 
       if(mp::abs(x - y) < tol)
-          return false;
+        return false;
       else
-          return x < y;
-        }
+        return x < y;
+    }
 
     // Pretty print the operator to output stream.
     template <typename S>

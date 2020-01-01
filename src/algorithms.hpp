@@ -52,9 +52,9 @@ namespace th
                          {
                            auto z = mat.toComplex();
                            if(mp::abs(z) >= 1 - ctol && z.real() < 0.5 && z.real() >= -0.5)
-                               return true;
+                             return true;
                            else
-                               return false;
+                             return false;
                          };
 
     std::size_t iter = 0;
@@ -84,7 +84,7 @@ namespace th
             assert(det(mat) == oldDet);
           }
         else                      // the number is in the fundamental region
-            break;
+          break;
 
         ++iter;
       }
