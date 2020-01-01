@@ -1,5 +1,6 @@
 source("poincare.R")
 
+
 recursivePlot  <- function(ls, depth=1, col="black", cex=0.5){
     if(depth <= 0){
         return(c())
@@ -34,7 +35,7 @@ recursivePlot  <- function(ls, depth=1, col="black", cex=0.5){
     recursivePlot(lsi, depth-1, col=col, cex=0.9*cex)
 }
 
-outs <- read.csv(paste("../out/", 492, ".txt", sep=""))
+outs <- read.csv(paste("../out/", 246, ".txt", sep=""))
 xs <- outs[[1]]
 ys <- outs[[2]]
 zs <- c()
