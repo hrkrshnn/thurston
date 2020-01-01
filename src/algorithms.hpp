@@ -7,9 +7,6 @@
 #include <fstream>
 // For the extended euclidean algorithm
 #include <boost/integer/extended_euclidean.hpp>
-// For matrices
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/io.hpp>
 
 namespace th
 {
@@ -55,19 +52,16 @@ namespace th
                          {
                            auto z = mat.toComplex();
                            if(mp::abs(z) >= 1 - ctol && z.real() < 0.5 && z.real() >= -0.5)
-                             {
                                return true;
-                             }
                            else
-                             {
                                return false;
-                             }
                          };
 
     std::size_t iter = 0;
     while(iter < iterMax)
       {
         auto z = mat.toComplex();
+
         if(mp::abs(z) < 1 - ctol)
           {
             inversion();
@@ -90,11 +84,7 @@ namespace th
             assert(det(mat) == oldDet);
           }
         else                      // the number is in the fundamental region
-          {
             break;
-          }
-
-        std::cout<<mat;
 
         ++iter;
       }
@@ -110,9 +100,7 @@ namespace th
   template <typename Z>
   auto genPoints(Z M, Z range)
   {
-    // a set because it handles the duplicates
     std::vector<matrix<Z>> vec;
-    std::set<matrix<Z>> results;
 
     for(Z a1 = 1; a1 < M + range; ++a1)
       {
@@ -120,20 +108,14 @@ namespace th
           {
             auto res = boost::integer::extended_euclidean(a1, b1);
 
-
             auto d = res.x;
             auto c = res.y;
-
             auto gcd = res.gcd;
 
             auto a = a1*M/gcd;      // TODO Cautious about integer overflow?
             auto b = b1*M/gcd;
 
-            matrix<Z> mat;
-            mat(0, 0) = a;
-            mat(0, 1) = -b;
-            mat(1, 0) = c;
-            mat(1, 1) = d;
+            matrix<Z> mat{a, -b, c, d};
 
             assert(det(mat) == M);
             vec.push_back(mat);
@@ -145,15 +127,14 @@ namespace th
         fundTransform(v);
       }
 
-    for(const auto& v: vec)
-      {
-        results.insert(v);
-      }
+    // A set that will handle the duplicates because of how operator< is defined
+    // in matrix.hpp
+    std::set<matrix<Z>> results(std::cbegin(vec), std::cend(vec));
 
     return results;
   }
 
-  // computes the GCD of two number.
+  // computes the GCD of two number; a wrapper around the boost library.
   template <typename Z>
   auto gcd(Z a, Z b)
   {
@@ -177,11 +158,17 @@ namespace th
                 matrix<Z> tmp(a, b, 0, d);
                 std::cout<<tmp;
 
+                matrix<Z> tmp1(-a, b, 0, -d);
+
                 fundTransform(tmp); // Do a transformation to the
+
                 // fundamental domain before pushing it
-                std::cout<<std::endl;
+                std::cout<<"\n";
+                fundTransform(tmp1);
+                std::cout<<"\n";
 
                 solSpace.push_back(tmp);
+                solSpace.push_back(tmp1);
               }
           }
       }
@@ -195,7 +182,6 @@ namespace th
   auto removeDuplicates(std::vector<matrix<Z>> mats)
   {
     // constructs a std::set and thereby removing the duplicates
-
     std::set<matrix<Z>> outs(std::cbegin(mats), std::cend(mats));
 
     return outs;
@@ -207,7 +193,10 @@ namespace th
     return (z - i)/(z + i);
   }
 
-  // Write a data structure that is iterable to a file
+  // Write the output to a file. Note that the output is written as points in
+  // the Poincare Disc model of the hyperbolic space. If you want points in the
+  // Poincare upper-half space model, then don't compose with the toDiscModel
+  // function.
   template <typename Z>
   auto writeFile(const std::set<matrix<Z>>& outs, const std::string& fname)
   {
@@ -220,8 +209,6 @@ namespace th
         myfile<<x.real()<<","<<x.imag()<<"\n";
       }
   }
-
-
 
 } // namespace th
 

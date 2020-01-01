@@ -25,11 +25,25 @@
       genPoints: this runs the fundTransform algorithm on 'random' matrices of
       determinant $2n$. Given a large enough sample size, in practice, the
       algorithm seems to exhaust the space P(n; 3, 3, 3, 3).
+   3. main.cpp. parses the command line arguments and calls the required
+      function. The program currently implements the main algorithm from the
+      thesis (algorithm 2.) If you need to run the Monte-Carlo style algorithm
+      (slower and crude), then change the calls in this file, see comments
+      inside the main function.
 ** R Scripts for visualization
    Some R scripts are included to help visualize the output of the C++ program.
    These scripts can be found under the folder: r-scr.
 
-   The file poincare.R provides a small R library that can help plot the
-   Poincare Upper half space.
+   The file ~poincare.R~ provides a small R library that can help plot the
+   Poincare Upper half space. This requires the R package named plotrix. This
+   can be installed by using the command ~install.packages("plotrix")~
 
-   
+   The file ~246.R~ provides the code to visualize the space of P(246; 3, 3, 3,
+   3). This requires the poincare.R library.
+
+   *Example*: To see this visualization, inside the r-scr directory do the following:
+   #+BEGIN_SRC bash
+   R
+   > source("246.R")
+   #+END_SRC
+

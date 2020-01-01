@@ -1,5 +1,6 @@
 source("poincare.R")
 
+
 recursivePlot  <- function(ls, depth=1, col="black", cex=0.5){
     if(depth <= 0){
         return(c())
@@ -52,7 +53,7 @@ z2 <- toDiscModel(z2)
 
 
 ## (1, 0), (0, y1), (0, y2)
-pdf("246.pdf", width=7, height=7)
+## pdf("246.pdf", width=7, height=7)
 ## png("246.png")
 plot(c(), xlim=c(-1, 1), ylim=c(-1, 1), asp=1, xlab=NULL, ylab=NULL, main=NULL, ann=F, axes=F)
 drawCircle()
@@ -61,6 +62,6 @@ points(zs, cex=0.5, pch=19, col="blue")
 drawGeodesic(1, 0, 0, y1)
 drawGeodesic(1, 0, 0, y2)
 drawGeodesic(0, y1, 0, y2)
-recursivePlot(list(z1, z2, z3, zs), 9, col="blue", cex=0.5)
-dev.off()
+recursivePlot(list(z1, z2, z3, zs), 7, col="blue", cex=0.5)
+## dev.off()
 
