@@ -158,17 +158,9 @@ namespace th
                 matrix<Z> tmp(a, b, 0, d);
                 std::cout<<tmp;
 
-                matrix<Z> tmp1(-a, b, 0, -d);
-
                 fundTransform(tmp); // Do a transformation to the
 
-                // fundamental domain before pushing it
-                std::cout<<"\n";
-                fundTransform(tmp1);
-                std::cout<<"\n";
-
                 solSpace.push_back(tmp);
-                solSpace.push_back(tmp1);
               }
           }
       }

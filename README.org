@@ -48,4 +48,66 @@
    R
    > source("246.R")
    #+END_SRC
+** Execution
+   After running make, the binary will be generated inside the bin folder
 
+   #+BEGIN_SRC txt
+   >./thurston --help
+   Allowed options:
+     --help                      produce help message
+     -t [ --triangles ] arg (=6) The number of triangles/2
+     -w [ --writefile ]          Writes to file n.txt inside the out folder, where
+                                 2*n is the number of triangles
+   #+END_SRC
+
+   Example:
+   #+BEGIN_SRC txt
+     > ./thurston -t 16
+     Number of triangles: 32
+     [1, 0], [0, 8] z:(4,6.9282)
+     [1, 1], [0, 8] z:(4,2.3094)
+     [1, 2], [0, 8] z:(2.85714,0.989743)
+     [1, 3], [0, 8] z:(2.15385,0.532939)
+     [1, 4], [0, 8] z:(1.71429,0.329914)
+     [1, 5], [0, 8] z:(1.41935,0.22349)
+     [1, 6], [0, 8] z:(1.2093,0.161121)
+     [1, 7], [0, 8] z:(1.05263,0.121547)
+     [2, 0], [0, 4] z:(1,1.73205)
+     [2, 1], [0, 4] z:(1.14286,0.989743)
+     [2, 2], [0, 4] z:(1,0.57735)
+     [2, 3], [0, 4] z:(0.842105,0.364642)
+     [4, 0], [0, 2] z:(0.25,0.433013)
+     [4, 1], [0, 2] z:(0.285714,0.329914)
+     [8, 0], [0, 1] z:(0.0625,0.108253)
+
+     After transformation, there are 15 elements 
+     [1, 0], [-4, 8] z:(0,6.9282)
+     [1, 1], [-4, 4] z:(-1.15875e-16,2.3094)
+     [1, 2], [-3, 2] z:(-0.142857,0.989743)
+     [2, -2], [1, 3] z:(-0.5,1.73205)
+     [2, 0], [-3, 4] z:(-0.5,1.73205)
+     [1, -3], [3, -1] z:(0.142857,0.989743)
+     [1, -2], [4, 0] z:(0,2.3094)
+     [1, -1], [4, 4] z:(3.47626e-16,6.9282)
+     [2, 0], [-2, 4] z:(0,1.73205)
+     [2, 1], [-2, 3] z:(0.142857,0.989743)
+     [2, -2], [2, 2] z:(8.69064e-17,1.73205)
+     [-2, 1], [0, -4] z:(1.15875e-16,2.3094)
+     [0, -2], [4, -2] z:(-8.69064e-17,1.73205)
+     [0, -2], [4, -3] z:(0.5,1.73205)
+     [0, -1], [8, -4] z:(-3.47626e-16,6.9282)
+
+     After removing duplicates, there are 5 elements.
+     [1, 2], [-3, 2] z:(-0.142857,0.989743)
+     [2, 0], [-2, 4] z:(0,1.73205)
+     [2, -2], [1, 3] z:(-0.5,1.73205)
+     [1, 1], [-4, 4] z:(-1.15875e-16,2.3094)
+     [1, 0], [-4, 8] z:(0,6.9282)
+   #+END_SRC
+
+   The notation "[a b], [c, d]" denotes a 2x2 matrix with first row [a, b] and
+   second row [c, d]. The complex number next to it represents the point in the
+   upper half plane of the complex plane corresponding to the matrix.
+*** Developer notes
+    The program can be compiled in debug mode by using `make debug.` This will
+    verify some asserts, mostly invariants when the program is executing.

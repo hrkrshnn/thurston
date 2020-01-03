@@ -66,7 +66,7 @@ auto main(int argc, char* argv[]) -> int
 
   // auto ans = th::genPoints(m/2, m/2);
 
-  std::cout<<"After transformation, there are "<<ans.size()<<" elements \n";
+  std::cout<<"\nAfter transformation, there are "<<ans.size()<<" elements \n";
   for(auto& v: ans)
     {
       std::cout<<v;
